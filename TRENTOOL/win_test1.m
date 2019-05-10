@@ -7,12 +7,103 @@ ft_defaults;
 %% define data paths
 
 OutputDataPath = 'D:\GitHub\TE\Results\';
-InputDataPath = 'D:\GitHub\TE\Data\lorenz_1-2_45ms.mat';
+InputDataPath = 'D:\GitHub\TE\Data\Input.mat';
 
 load(InputDataPath);
 
-%% define cfg for TEprepare.m
+%% import data
+%{
+%AR data
 
+load('x_value.mat');
+load('AR(10)_value');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=x;
+    data.trial{1,i}(2,:)=X;
+end
+%}
+%{
+%ARMA data
+load('x_value.mat');
+load('ARMA_value.mat');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=x;
+    data.trial{1,i}(2,:)=Y;
+end
+%}
+%{
+%positive correlation
+load('x_value.mat');
+load('y_pc.mat');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=x;
+    data.trial{1,i}(2,:)=y_pc;
+end
+%}
+%{
+%negative correlation
+load('x_value.mat');
+load('y_nc.mat');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=x;
+    data.trial{1,i}(2,:)=y_nc;
+end
+%}
+%{
+%positive correlation with delay
+load('x_value.mat');
+load('y_pcd.mat');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=x;
+    data.trial{1,i}(2,:)=y_pcd;
+end
+%}
+%{
+%square relationship
+load('x_value.mat');
+load('y_square.mat');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=x;
+    data.trial{1,i}(2,:)=y_square;
+end
+%}
+%{
+%threshold relationship
+load('x_value.mat');
+load('y_sig.mat');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=x;
+    data.trial{1,i}(2,:)=y_sig;
+end
+%}
+%{
+%linear mixed
+load('X_e.mat');
+load('Y_e.mat');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=X_e;
+    data.trial{1,i}(2,:)=Y_e;
+end
+%}
+%{
+%SNR
+load('X_e_noi.mat');
+load('Y_e_noi.mat');
+
+for i = 1:150
+    data.trial{1,i}(1,:)=X_e;
+    data.trial{1,i}(2,:)=Y_e;
+end
+%}
+%% define cfg for TEprepare.m
 cfgTEP = [];
 
 %% data     
@@ -23,8 +114,8 @@ cfgTEP.sgncmb = {'A1' 'A2'};
 
 % scanning of interaction delays u
 % 这里如何设置？
-cfgTEP.predicttimemin_u    = 40;   % minimum u to be scanned
-cfgTEP.predicttimemax_u    = 50;   % maximum u to be scanned
+cfgTEP.predicttimemin_u    = 1;   % minimum u to be scanned
+cfgTEP.predicttimemax_u    = 10;   % maximum u to be scanned
 cfgTEP.predicttimestepsize = 1; % time steps between u's to be scanned
 
 % estimator
@@ -66,7 +157,7 @@ cfgTESS.fileidout = strcat(OutputDataPath,'Lorenzdata_1->2_');
 % calculation - scan over specified values for u
 
 TGA_results = IDR_calculate(cfgTEP,cfgTESS,data);
-save([OutputDataPath 'Lorenz_TGA_results.mat'],'TGA_results');
+save([OutputDataPath 'Output.mat'],'TGA_results');
 % save('D:\GitHub\TE\Results\TGA_results_1.mat','TGA_results');
 %% optional: perform a post hoc correction for cadcade effects and simple common drive effects
 
@@ -77,8 +168,8 @@ cfgGA.cmc = 1;
 
 % TGA_results_GA = TEgraphanalysis(cfgGA,TGA_results_analyzed);
 TGA_results_GA = TEgraphanalysis(cfgGA,TGA_results);
-save([OutputDataPath 'TGA_results_analyzed_GA.mat'],'TGA_results_GA');
-
+save([OutputDataPath 'Output_GA.mat'],'TGA_results_GA');
+%{
 %% plotting
 
 load('D:\GitHub\TE\Data\lorenz_layout.mat');
@@ -101,5 +192,11 @@ cfgPLOT. arrowcolorpos = [1 0 0];
 figure;
 % TEplot2D(cfgPLOT,TGA_results_analyzed_GA);
 TEplot2D(cfgPLOT,TGA_results_GA);
+%}
+
+Sum = sum(TGA_results.TEbyU);
+TE = Sum/10;
+disp(TE);
+
 
 

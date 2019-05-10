@@ -17,6 +17,6 @@ plot(Y,'r');
 xlim([0 500]);
 legend('x','ARMA(10,10)');
 title('原始数据&(10,10)自回归滑动平均模型预测数据');
-save('ARMA_value','y1');
+save('ARMA_value','Y');
 
 

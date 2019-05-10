@@ -1,6 +1,6 @@
-x = normrnd(0,1,1,500);
+%x = normrnd(0,1,1,500);
 %[A,var] = AR(x,10);
-%load('x_value.mat');
+load('x_value.mat');
 A = aryule(x,10); % 用函数直接完成功能
 % to be or not to be？
 A(1:10) = A(2:11);

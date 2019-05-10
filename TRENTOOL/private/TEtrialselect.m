@@ -65,18 +65,18 @@ if strcmp(cfg.trialselect, 'ACT')
         trials{ii, pp}=trialselect;
         end
     end
-
+% ___________________£¿£¿£¿
     % error message if bad channel exist
-    if sum(badchancmb) > 0
-         fprintf(['\nbad channel combinations: ',num2str(sum(badchancmb)),'\n']);
-%         for ii = 1 : size(badchancmb,1)
-%             if badchancmb == 1
-%                 fprintf(strcat(cell2mat(cfg.sgncmb(ii,:)),'\n'));
-%             end
-%         end
-        fprintf('\n')
-        error('TRENTOOL ERROR: less than mininmum nr of trials reached ACT threshold criteria - to solve the problem change the ACT threshold (cfg.actthrvalue) or remove the bad channel combinations');
-    end
+%     if sum(badchancmb) > 0
+%          fprintf(['\nbad channel combinations: ',num2str(sum(badchancmb)),'\n']);
+% %         for ii = 1 : size(badchancmb,1)
+% %             if badchancmb == 1
+% %                 fprintf(strcat(cell2mat(cfg.sgncmb(ii,:)),'\n'));
+% %             end
+% %         end
+%         fprintf('\n')
+%         error('TRENTOOL ERROR: less than mininmum nr of trials reached ACT threshold criteria - to solve the problem change the ACT threshold (cfg.actthrvalue) or remove the bad channel combinations');
+%     end
 
 elseif strcmp(cfg.trialselect, 'range')
     % select trials from range

@@ -550,7 +550,7 @@ else
                for nt = 1:nrtrials(channel,targetchannel) % loop over trials
 
                     if strcmp(cfg.TheilerT, 'ACT')
-                        TheilerT = ACT(channel,2,trials{channel,targetchannel}(nt));
+                         TheilerT = ACT(channel,2,trials{channel,targetchannel}(nt));
                     else
                         TheilerT = cfg.TheilerT;
                     end
