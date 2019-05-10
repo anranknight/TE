@@ -1,4 +1,3 @@
-function TE_value = real_data_TE(data)
 %% set paths
 
 addpath('D:\GitHub\TE\TRENTOOL');
@@ -9,14 +8,15 @@ ft_defaults;
 
 OutputDataPath = 'D:\GitHub\TE\Results\';
 InputDataPath = 'D:\GitHub\TE\Data\Input.mat';
+load(InputDataPath);
+load('D:\EEG\Subject2\Export\000007_Filters1.mat');
+% average
+eeg = (Cz+C1+C3+C5+CP1+CP3+CP5+FC1+FC3+FC5)/10;
+emg = (ch1+ch2+ch3+ch4)/4;
 
-%% average
-% eeg = (Cz+C1+C3+C5+CP1+CP3+CP5+FC1+FC3+FC5)/10;
-% emg = (ch1+ch2+ch3+ch4)/4;
-
-%% change data format
-% T = 1/SampleRate;
-% time = 0:T:size(eeg)/SampleRate-T;
+% change data format
+T = 1/SampleRate;
+time = 0:T:size(eeg)/SampleRate-T;
 % for i = 1:150
 %     data.trial{1,i}      = eeg';
 %     data.trial{1,i}(2,:) = emg';
@@ -34,17 +34,17 @@ cfgTEP.sgncmb = {'A1' 'A2'};
 
 % scanning of interaction delays u
 % 这里如何设置？
-cfgTEP.predicttimemin_u    = 1;   % minimum u to be scanned
-cfgTEP.predicttimemax_u    = 10;   % maximum u to be scanned
+cfgTEP.predicttimemin_u    = 41;   % minimum u to be scanned
+cfgTEP.predicttimemax_u    = 50;   % maximum u to be scanned
 cfgTEP.predicttimestepsize = 1; % time steps between u's to be scanned
 
 % estimator
 cfgTEP.TEcalctype = 'VW_ds'; 
 
 % ACT estimation and constraints on allowd ACT(autocorelation time)
-cfgTEP.actthrvalue = 10; % threshold for ACT
+cfgTEP.actthrvalue = 100; % threshold for ACT
 cfgTEP.maxlag      = 1000;
-cfgTEP.minnrtrials = 15; % minimum acceptable number of trials
+cfgTEP.minnrtrials = 15; % minimum acceptable number of trials  *** changed
 
 % optimizing embedding
 cfgTEP.optimizemethod = 'ragwitz' ; % criterion used
@@ -94,4 +94,4 @@ save([OutputDataPath 'Output_GA.mat'],'TGA_results_GA');
 Sum = sum(TGA_results.TEbyU);
 TE_value = Sum/10;
 %disp(TE);
-end
+

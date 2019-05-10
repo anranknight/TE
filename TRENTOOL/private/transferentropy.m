@@ -357,7 +357,6 @@ if strcmp(cfg.calctime, 'yes')
         timetest = 0;
         for ii = 1:5
             tic
-	    
 	    currentTau = round(cfg.tau(1)*data.TEprepare.maxact);
 	    if currentTau < 1
             currentTau = 1;		% this may become zero for small ACT values -> overwrite manually
